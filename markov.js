@@ -17,7 +17,6 @@ class MarkovMachine {
    *  {"the": ["cat", "hat"], "cat": ["in"], "in": ["the"], "hat": [null]} */
 
   makeChains() {
-    
     const markovMap = new Map();
 
     for(let i = 0; i < this.words.length; i++){
@@ -34,20 +33,31 @@ class MarkovMachine {
       }
     }
 
-    return markovMap;
+    this.markovMap = markovMap;
   }
+
+  /** returns a random ele in arr */
+  static chooseWord(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
 
 
   /** return random text from chains */
 
   makeText(numWords = 100) {
-    // TODO
+    const keys = Array.from(this.markovMap.keys()); //makes arr of keys from markov Map
+    let word = MarkovMachine.chooseWord(keys);
+    let str = word;
 
-    let str = '';
+    console.log({keys, word, str})
 
     for(let i = 0; i < numWords; i++){
-    //get the object from makeChains and append it to a string
-    //for each (this.words[i]) randomly chose the word it's mapped to
+      word = MarkovMachine.chooseWord(this.markovMap.get(word));//chose next word to add to the str
+      
+      if(word === null) break;
+
+      str+=` ${word}`;
     }
 
     return str;
@@ -56,4 +66,4 @@ class MarkovMachine {
 
 
 const machine = new MarkovMachine(`the cat in the hat is in the hat`);
-console.log(machine.makeChains());
+console.log(machine.makeText());
