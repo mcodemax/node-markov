@@ -50,9 +50,7 @@ class MarkovMachine {
     let word = MarkovMachine.chooseWord(keys);
     let str = word;
 
-    console.log({keys, word, str})
-
-    for(let i = 0; i < numWords; i++){
+    for(let i = 1; i < numWords; i++){//we start @ i = 1 b/c str already has 1 word in it
       word = MarkovMachine.chooseWord(this.markovMap.get(word));//chose next word to add to the str
       
       if(word === null) break;
@@ -64,6 +62,20 @@ class MarkovMachine {
   }   
 }
 
+let testMachine = new MarkovMachine(`I could not, would not, on a boat.
+I will not, will not, with a goat.
+I will not eat them in the rain.
+I will not eat them on a train.
+Not in the dark! Not in a tree!
+Not in a car! You let me be!
+I do not like them in a box.
+I do not like them with a fox.
+I will not eat them in a house.
+I do not like them with a mouse.
+I do not like them here or there.
+I do not like them anywhere!`);
+console.log( testMachine.markovMap )
 
-const machine = new MarkovMachine(`the cat in the hat is in the hat`);
-console.log(machine.makeText());
+module.exports = {
+  MarkovMachine: MarkovMachine
+};
